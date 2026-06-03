@@ -57,6 +57,12 @@ h1 {
   margin-bottom: 30px;
 }
 
+.hour,
+.min,
+.sec {
+  padding: 30px;
+}
+
 .controls {
   display: flex;
   justify-content: center;
