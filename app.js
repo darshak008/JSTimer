@@ -45,3 +45,10 @@ pause.addEventListener("click", () => {
     isPaused = true;
   }
 });
+
+const reset = () => {
+  clearInterval(timeInterval);
+  docHour.innerText = "00";
+  docMin.innerText = "00";
+  docSec.innerText = "00";
+};
