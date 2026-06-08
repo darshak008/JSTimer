@@ -29,7 +29,6 @@ const startTimer = () => {
 
     timeInterval = setInterval(() => {
       let elapsed = elapsedTime + (Date.now() - startTime);
-      console.log("ElapsedTime = ", elapsedTime, "\nstartTime = ", startTime);
 
       let ms = Math.floor((elapsed % 1000) / 10);
       let sec = (elapsed % (1000 * 60)) / 1000;
@@ -52,6 +51,33 @@ const startTimer = () => {
 
 let isPaused = true;
 let isReset = false;
+const laps = [];
+
+const addLap = () => {
+  laps.push(elapsedTime);
+  showLaps();
+};
+
+const showLaps = () => {
+  const lapList = document.querySelector(".lap-list");
+  lapList.innerText = "";
+
+  laps.map((lap, idx) => {
+    let sec = (lap % (1000 * 60)) / 1000;
+    let min = (lap % (1000 * 60 * 60)) / 60000;
+    let hour = (lap / (1000 * 60 * 60 * 60)) % 12;
+
+    let l = document.createElement("div");
+    l.innerText = `Lap ${idx + 1}`;
+    l.classList.add("lap");
+
+    let lTime = document.createElement("span");
+    lTime.innerText = `${Math.floor(hour).toString().padStart(2, "0")} : ${Math.floor(min).toString().padStart(2, "0")} : ${Math.floor(sec).toString().padStart(2, "0")}`;
+
+    l.appendChild(lTime);
+    lapList.appendChild(l);
+  });
+};
 
 const pauseTimer = () => {
   clearInterval(timeInterval);
@@ -59,12 +85,11 @@ const pauseTimer = () => {
     isPaused = true;
     elapsedTime += Date.now() - startTime;
     isRunning = false;
+    addLap();
   } else if (!isPaused && isReset) {
     isPaused = true;
     elapsedTime = 0;
     isRunning = false;
-  } else {
-    isPaused = false;
   }
 };
 
